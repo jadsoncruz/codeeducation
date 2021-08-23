@@ -1,9 +1,8 @@
 FROM golang:1.15-alpine as builder
 WORKDIR /src
 COPY *.go .
-RUN go mod init desafio && \
-    go build && \
-    go install
+RUN go get -d -v ./...
+RUN GOOS=linux GOARCH=amd64 go build -ldflags="-w -s" -o /go/bin/desafio
 
 FROM scratch as final
 WORKDIR /app
